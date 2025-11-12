@@ -12,31 +12,40 @@ This lab demonstrates loading, processing, and aggregating CSV data using a smal
     - **`result.txt`**: # Where the results are written to
 
 ## Design Overview
-This project centers on two primary classes defined in [oop_lab_1/data_processing.py](data_processing.py):
+This repository defines three main classes in `data_processing.py`. Descriptions below match the current code (no other methods such as `select` or `to_text` are implemented).
 
-- [`DataLoader`](data_processing.py)
-  - Purpose: Read CSV files and convert them into a list-of-dictionaries representation.
-  - Key attributes:
-    - `base_path` (Path) — optional base directory for dataset files.
-  - Key methods:
-    - [`DataLoader.__init__`](data_processing.py) — Initialize loader with optional base path.
-    - [`DataLoader.load_csv`](data_processing.py) — Read a CSV file and return `List[Dict[str, str]]`. Handles header parsing and basic trimming.
-    - (Optional) utility methods for safe type conversion or filtering while loading.
+- DataLoader
+  - Purpose: Read CSV files into memory.
+  - Attributes:
+    - `base_path` (Path) — directory used to resolve filenames (defaults to the script directory).
+  - Methods:
+    - `__init__(base_path=None)` — set the base path.
+    - `load_csv(filename)` — return a `list[dict]` by reading the named CSV file with `csv.DictReader`.
 
-- [`Table`](data_processing.py)
-  - Purpose: Provide table-like operations (filtering, projection, aggregation) on the loaded data.
-  - Key attributes:
-    - `rows` (List[Dict[str, Any]]) — current table rows.
-    - `columns` (List[str]) — detected column names (from CSV header).
-  - Key methods:
-    - [`Table.filter`](data_processing.py) — Return a new `Table` with rows matching a predicate or simple condition (e.g., column == value).
-    - [`Table.select`](data_processing.py) — Project a subset of columns.
-    - [`Table.aggregate`](data_processing.py) — Compute aggregations (sum, mean, count) grouped by column(s).
-    - [`Table.to_text`](data_processing.py) — Serialize results to a human-readable string (used to write to [oop_lab_1/result.txt](result.txt)).
+- DB
+  - Purpose: Simple in-memory container for named Table objects.
+  - Attributes:
+    - `database` (dict) — mapping from `table.table_name` to `Table` instances.
+  - Methods:
+    - `__init__()` — initialize empty database.
+    - `insert(table)` — store a `Table` using its `table_name` as key.
+    - `search(table_name)` — retrieve a `Table` by name (returns `None` if not found).
 
-Note: See [oop_lab_1/data_processing.py](data_processing.py) for the exact method signatures and any additional helper classes or functions.
+- Table
+  - Purpose: Hold rows (list of dicts) and provide basic operations.
+  - Attributes:
+    - `table_name` (str) — optional name for the table.
+    - `table` (list[dict]) — the rows of the table.
+  - Methods:
+    - `__init__(table_name='', table=[])` — create a Table with given name and rows.
+    - `__str__()` — string representation: "name:rows".
+    - `filter(condition)` — returns a new `Table` containing rows for which `condition(row)` is truthy.
+    - `aggregate(aggregation_function, aggregation_key)` — builds a list of values for `aggregation_key` (attempting float conversion; falls back to raw value on ValueError) and applies `aggregation_function` to that list, returning the result.
+    - `join(other_table, key)` — for each row in this table, finds the first matching row in `other_table` where `row[key] == other_row[key]`, merges `other_row` into `row` (using `dict.update`) and returns a new `Table` with the merged rows.
+  - Notes:
+    - `join` mutates the matched rows by calling `update` on them before returning the new Table's rows.
+    - There is no `select` or `to_text` method in the current implementation.
 
 ## How to run and test
-1. Ensure you are in the lab folder:
-   ```sh
-   cd d:\KU_SKE\Y1S1\com_prog1\oop_lab_1
+```bash
+python data_processing.ppy
