@@ -1,73 +1,42 @@
-# Lab overview
+# OOP Lab 1 — CSV Data Processing
 
-This lab is about understanding the `lambda` function and making the code become **Object-Oriented**.
-
+## Lab Overview
+This lab demonstrates loading, processing, and aggregating CSV data using a small object-oriented design. The goal is to encapsulate CSV I/O and table-style data operations into reusable classes so that data analysis tasks are easier to test and extend.
 
 ## Project Structure
-
-This is the structure of this project
-
 - **`oop_lab_1/`**: Contains every file for this program
-	- **`README.md`**: # This file
-	- **`Cities.csv`**: # The dataset
-	- **`data_processing.py`**: # The analysis code
-
+    - **`README.md`**: # This file
+    - **`Cities.csv`**: # Cities dataset
+	- **`Countries.csv`**: # Countries dataset
+    - **`data_processing.py`**: # The data formating code
+    - **`result.txt`**: # Where the results are written to
 
 ## Design Overview
+This project centers on two primary classes defined in [oop_lab_1/data_processing.py](oop_lab_1/data_processing.py):
 
-This program is built to **load and analyze CSV data** using two main classes: `DataLoader` and `Table`.  
-It supports data loading, filtering, and aggregation in a modular, object-oriented structure.
+- [`DataLoader`](oop_lab_1/data_processing.py)
+  - Purpose: Read CSV files and convert them into a list-of-dictionaries representation.
+  - Key attributes:
+    - `base_path` (Path) — optional base directory for dataset files.
+  - Key methods:
+    - [`DataLoader.__init__`](oop_lab_1/data_processing.py) — Initialize loader with optional base path.
+    - [`DataLoader.load_csv`](oop_lab_1/data_processing.py) — Read a CSV file and return `List[Dict[str, str]]`. Handles header parsing and basic trimming.
+    - (Optional) utility methods for safe type conversion or filtering while loading.
 
----
+- [`Table`](oop_lab_1/data_processing.py)
+  - Purpose: Provide table-like operations (filtering, projection, aggregation) on the loaded data.
+  - Key attributes:
+    - `rows` (List[Dict[str, Any]]) — current table rows.
+    - `columns` (List[str]) — detected column names (from CSV header).
+  - Key methods:
+    - [`Table.filter`](oop_lab_1/data_processing.py) — Return a new `Table` with rows matching a predicate or simple condition (e.g., column == value).
+    - [`Table.select`](oop_lab_1/data_processing.py) — Project a subset of columns.
+    - [`Table.aggregate`](oop_lab_1/data_processing.py) — Compute aggregations (sum, mean, count) grouped by column(s).
+    - [`Table.to_text`](oop_lab_1/data_processing.py) — Serialize results to a human-readable string (used to write to [oop_lab_1/result.txt](oop_lab_1/result.txt)).
 
-### **1. Class: `DataLoader`**
+Note: See [oop_lab_1/data_processing.py](oop_lab_1/data_processing.py) for the exact method signatures and any additional helper classes or functions.
 
-#### **Purpose**
-Handles reading CSV files and converting them into Python data structures for analysis.
-
-#### **Attributes**
-- **`base_path`** *(Path)* – Base directory where CSV files are stored. Defaults to the current script location.
-
-#### **Key Methods**
-- **`__init__(self, base_path=None)`** – Initializes with an optional base path.  
-- **`load_csv(self, filename)`** – Reads a CSV file and returns a list of dictionaries, one per row.
-
-**Example:**
-```python
-loader = DataLoader()
-data = loader.load_csv('Cities.csv')
-```
-
----
-
-### **2. Class: `Table`**
-
-### **Overview**
-The `Table` class represents a dataset loaded from a CSV file (or any list of dictionaries).  
-It provides simple, reusable methods for **filtering** and **aggregating** data, allowing users to perform analysis without external libraries.
-
----
-
-### **Attributes**
-
-- **`table_name`** *(str)*  
-	The name or label of the dataset (e.g., `"cities"`).  
-	Useful for identifying tables when handling multiple datasets.
-
-- **`table`** *(list)*  
-	The main data structure — a list of dictionaries, where each dictionary represents a row.  
-	Example:
-	```python
-	[
-	    {"city": "Berlin", "country": "Germany", "temperature": "13.5"},
-	    {"city": "Madrid", "country": "Spain", "temperature": "14.2"}
-	]
-
-
-# How to test and run your code
-
-To run the program, execute `data_processing.py`:
-
-```python
-python data_processing.py
-```
+## How to run and test
+1. Ensure you are in the lab folder:
+   ```sh
+   cd d:\KU_SKE\Y1S1\com_prog1\oop_lab_1
