@@ -12,29 +12,29 @@ This lab demonstrates loading, processing, and aggregating CSV data using a smal
     - **`result.txt`**: # Where the results are written to
 
 ## Design Overview
-This project centers on two primary classes defined in [oop_lab_1/data_processing.py](oop_lab_1/data_processing.py):
+This project centers on two primary classes defined in [oop_lab_1/data_processing.py](data_processing.py):
 
-- [`DataLoader`](oop_lab_1/data_processing.py)
+- [`DataLoader`](data_processing.py)
   - Purpose: Read CSV files and convert them into a list-of-dictionaries representation.
   - Key attributes:
     - `base_path` (Path) — optional base directory for dataset files.
   - Key methods:
-    - [`DataLoader.__init__`](oop_lab_1/data_processing.py) — Initialize loader with optional base path.
-    - [`DataLoader.load_csv`](oop_lab_1/data_processing.py) — Read a CSV file and return `List[Dict[str, str]]`. Handles header parsing and basic trimming.
+    - [`DataLoader.__init__`](data_processing.py) — Initialize loader with optional base path.
+    - [`DataLoader.load_csv`](data_processing.py) — Read a CSV file and return `List[Dict[str, str]]`. Handles header parsing and basic trimming.
     - (Optional) utility methods for safe type conversion or filtering while loading.
 
-- [`Table`](oop_lab_1/data_processing.py)
+- [`Table`](data_processing.py)
   - Purpose: Provide table-like operations (filtering, projection, aggregation) on the loaded data.
   - Key attributes:
     - `rows` (List[Dict[str, Any]]) — current table rows.
     - `columns` (List[str]) — detected column names (from CSV header).
   - Key methods:
-    - [`Table.filter`](oop_lab_1/data_processing.py) — Return a new `Table` with rows matching a predicate or simple condition (e.g., column == value).
-    - [`Table.select`](oop_lab_1/data_processing.py) — Project a subset of columns.
-    - [`Table.aggregate`](oop_lab_1/data_processing.py) — Compute aggregations (sum, mean, count) grouped by column(s).
-    - [`Table.to_text`](oop_lab_1/data_processing.py) — Serialize results to a human-readable string (used to write to [oop_lab_1/result.txt](oop_lab_1/result.txt)).
+    - [`Table.filter`](data_processing.py) — Return a new `Table` with rows matching a predicate or simple condition (e.g., column == value).
+    - [`Table.select`](data_processing.py) — Project a subset of columns.
+    - [`Table.aggregate`](data_processing.py) — Compute aggregations (sum, mean, count) grouped by column(s).
+    - [`Table.to_text`](data_processing.py) — Serialize results to a human-readable string (used to write to [oop_lab_1/result.txt](result.txt)).
 
-Note: See [oop_lab_1/data_processing.py](oop_lab_1/data_processing.py) for the exact method signatures and any additional helper classes or functions.
+Note: See [oop_lab_1/data_processing.py](data_processing.py) for the exact method signatures and any additional helper classes or functions.
 
 ## How to run and test
 1. Ensure you are in the lab folder:
