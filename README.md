@@ -42,10 +42,6 @@ This repository defines three main classes in `data_processing.py`. Descriptions
     - `filter(condition)` — returns a new `Table` containing rows for which `condition(row)` is truthy.
     - `aggregate(aggregation_function, aggregation_key)` — builds a list of values for `aggregation_key` (attempting float conversion; falls back to raw value on ValueError) and applies `aggregation_function` to that list, returning the result.
     - `join(other_table, key)` — for each row in this table, finds the first matching row in `other_table` where `row[key] == other_row[key]`, merges `other_row` into `row` (using `dict.update`) and returns a new `Table` with the merged rows.
-  - Notes:
-    - `join` mutates the matched rows by calling `update` on them before returning the new Table's rows.
-    - There is no `select` or `to_text` method in the current implementation.
-
 ## How to run and test
 ```bash
 python data_processing.ppy
